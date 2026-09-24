@@ -7,8 +7,7 @@ services:
   postgres:
     image: postgres:17
     env_file:
-      - path: packages/trueforge/.env
-        required: true
+      - packages/trueforge/.env
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     healthcheck:
@@ -54,15 +53,19 @@ services:
       # A single-process deployment can set STANDALONE=true and drop redis.
       STANDALONE: 'false'
       REDIS_URL: redis://redis:6379
+      # Allow the compose-internal MCP (and host DNS during local dev) past
+      # the outbound-URL SSRF gate. JSON string array.
+      OUTBOUND_URL_ALLOWED_HOSTS: '["thinksource-mcp","host.docker.internal"]'
     # Secrets and Postgres credentials (POSTGRES_USER, …).
     # `environment` above overrides any colliding keys from this file.
     env_file:
-      - path: packages/trueforge/.env
-        required: true
+      - packages/trueforge/.env
     depends_on:
       postgres:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      thinksource-mcp:
         condition: service_healthy
     # Probes GET /healthz; node is already in the image.
     healthcheck:
@@ -82,6 +85,29 @@ services:
     stop_grace_period: 35s
     restart: unless-stopped
 
+  # ThinkSource MCP: ships 15 tools (YouTube, docs, web/pdf, preview) on
+  # streamable-HTTP at /mcp. Reachable from `server` as
+  # http://thinksource-mcp:9000/mcp within the compose network, and from the
+  # host at http://localhost:9000 for the preview / download endpoints.
+  thinksource-mcp:
+    build:
+      context: ../thinksource-mcp
+      dockerfile: Dockerfile
+    image: thinksource-mcp:latest
+    ports:
+      - '9000:9000'
+    environment:
+      THINKSOURCE_MCP_HOST: 0.0.0.0
+      THINKSOURCE_MCP_PORT: '9000'
+      # Downloads inside container; host mount below persists them.
+      THINKSOURCE_DOWNLOADS_DIR: /data/downloads
+      # For `download_url` / `preview_url` strings returned to the model —
+      # what the user's browser resolves to when they click a link.
+      THINKSOURCE_PUBLIC_HOST: localhost
+    volumes:
+      - ./data/thinksource-downloads:/data/downloads
+    restart: unless-stopped
+
   # Schedule controller: runs the periodic control loops (schedule dispatch) as a separate service.
   controller:
     build:
@@ -98,8 +124,7 @@ services:
       # the compose DNS name that resolves to the server container.
       SERVER_URL: http://server:8790
     env_file:
-      - path: packages/trueforge/.env
-        required: true
+      - packages/trueforge/.env
     depends_on:
       postgres:
         condition: service_healthy

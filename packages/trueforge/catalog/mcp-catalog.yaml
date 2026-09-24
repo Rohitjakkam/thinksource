@@ -2,6 +2,17 @@
 # GET /api/v1/catalog/mcp-servers for the UI to copy into
 # PUT /api/v1/settings/mcp-servers bodies. Discovery-only — never executed against.
 mcp_servers:
+  # ThinkSource in-house MCP. Runs as a compose sibling service; already reachable
+  # inside the deployment at `http://thinksource-mcp:9000/mcp`. Presented in the
+  # catalog so a fresh install can enable it with one click.
+  - type: remote
+    name: thinksource
+    url: http://thinksource-mcp:9000/mcp
+    description: >-
+      ThinkSource tools (15): YouTube (metadata, transcript, search, channel,
+      audio, comments), documents (create_docx / _pdf / _xlsx / _pptx /
+      _markdown + list_downloads), web (search + fetch), pdf_extract, plus an
+      inline /preview HTML renderer for markdown / HTML / PDF outputs.
   - type: remote
     name: linear
     logo: https://assets.production.truefoundry.com/linear.svg

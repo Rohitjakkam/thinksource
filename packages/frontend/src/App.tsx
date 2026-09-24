@@ -29,12 +29,24 @@ const authAwareFetch = createAuthAwareFetch();
 const bootClient = createTrueForgeClient({ baseUrl: API_BASE_URL, fetch: authAwareFetch });
 const routerBasename = uiRouterBasename();
 
-/** Host brand: primary CTA fill is a gradient (see `index.css`); keep solid token for accents. */
+/** ThinkSource brand: wordmark + icon in indigo/violet. */
 const appTheme: ThemeConfig = {
   className: 'harness-primary-gradient',
   tokens: {
     primaryButtonBg: '#6366F1',
     primaryButtonHover: '#3d2dd4',
+  },
+  brand: {
+    name: 'ThinkSource',
+    mode: 'logo',
+    logo: {
+      light: '/thinksource-logo-light.svg',
+      dark: '/thinksource-logo-dark.svg',
+    },
+    icon: {
+      light: '/thinksource-icon-light.svg',
+      dark: '/thinksource-icon-dark.svg',
+    },
   },
 };
 
