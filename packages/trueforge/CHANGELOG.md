@@ -1,5 +1,18 @@
 # @truefoundry/trueforge
 
+## 0.3.0-rc.1
+
+### Patch Changes
+
+- f98e575: Add Sentry for critical-flow error reporting (TrueFoundry auth-server or SENTRY_DSN init) with configurable additional tags.
+- 5adde28: Add `turn_inbound_events` store API for durable tip HITL send-event inbox (insert / list unconsumed / mark consumed), with Postgres and SQLite migrations.
+- b342a21: Add `user.tool_approval_policy` send-event schema (`allow_session`, optional ISO `expire_at`). Send-only like `user.tool_approval` / `user.tool_response` — not on the durable stream.
+- Updated dependencies [829ac6e]
+- Updated dependencies [5adde28]
+- Updated dependencies [b342a21]
+  - @truefoundry/trueforge-sdk@0.2.1-rc.1
+  - @truefoundry/trueforge-core@0.3.0-rc.1
+
 ## 0.3.0-rc.0
 
 ### Minor Changes

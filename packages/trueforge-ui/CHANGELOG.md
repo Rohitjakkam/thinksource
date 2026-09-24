@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.4.0-rc.1
+
+### Minor Changes
+
+- c6b78d9: Make sandbox provider port types identity-only; move Daytona lifecycle fields (`execTimeoutMs`, auto-stop/archive/delete intervals) onto host `DaytonaSandboxConfig`.
+
+### Patch Changes
+
+- dd421b7: Add an action to restore the recent 30-day session list from a timestamp-pinned session.
+- 73e146e: Make the compaction threshold an Auto/Custom selector: Auto omits `trigger` (runtime derives ~80% of the model context window); Custom reveals a number input defaulting to 50000.
+- ff0cee5: Improve session timeline tooltips with sandbox tool details and grouped sub-agent tool calls.
+- Updated dependencies [829ac6e]
+- Updated dependencies [c6b78d9]
+  - @truefoundry/trueforge-sdk@0.2.1-rc.1
+  - @truefoundry/trueforge-assistant-ui-runtime@0.2.0-rc.1
+
 ## 0.4.0-rc.0
 
 ### Minor Changes

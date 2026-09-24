@@ -1,5 +1,11 @@
 # @truefoundry/trueforge-assistant-ui-runtime
 
+## 0.2.0-rc.1
+
+### Minor Changes
+
+- c6b78d9: Make sandbox provider port types identity-only; move Daytona lifecycle fields (`execTimeoutMs`, auto-stop/archive/delete intervals) onto host `DaytonaSandboxConfig`.
+
 ## 0.2.0-rc.0
 
 ### Minor Changes
