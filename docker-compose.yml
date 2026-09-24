@@ -91,7 +91,7 @@ services:
   # host at http://localhost:9000 for the preview / download endpoints.
   thinksource-mcp:
     build:
-      context: ../thinksource-mcp
+      context: ./thinksource-mcp
       dockerfile: Dockerfile
     image: thinksource-mcp:latest
     ports:

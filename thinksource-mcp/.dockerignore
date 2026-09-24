@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+mcp.log
+downloads/
+# uv creates .python-version pinning the host Python; container has its own.
+.python-version
+.git/
+.gitignore
+.env
+.env.local
